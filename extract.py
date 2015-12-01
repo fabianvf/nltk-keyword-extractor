@@ -64,13 +64,12 @@ def extract_trigram(words):
     finder = TrigramCollocationFinder.from_words(words)
     return finder.nbest(trigram_measures.pmi, 5)
 
+extract_keywords = fn_add(extract_common, extract_bigram, extract_trigram)
 
 # The echos are for debugging the intermediate steps
 main = compose(
-    fn_add(extract_common,
-           extract_bigram,
-           extract_trigram),    echo,  # Get individual, bigram, and trigram keywords
-    filter_candidates,          echo,  # Get nouns and adjectives
-    pos_tag,                    echo,  # Tag words by part of speech
-    word_tokenize,              echo,  # Separate sentence into words
+    extract_keywords,   echo,  # Get individual, bigram, and trigram keywords
+    filter_candidates,  echo,  # Get nouns and adjectives
+    pos_tag,            echo,  # Tag words by part of speech
+    word_tokenize,      echo,  # Separate sentence into words
 )
