@@ -50,11 +50,6 @@ def filter_candidates(pairs):
     ]
 
 
-def extract_common(words):
-    # This is hard on a small corpus...
-    return []
-
-
 def extract_bigram(words):
     finder = BigramCollocationFinder.from_words(words)
     return finder.nbest(bigram_measures.pmi, 5)
@@ -64,7 +59,7 @@ def extract_trigram(words):
     finder = TrigramCollocationFinder.from_words(words)
     return finder.nbest(trigram_measures.pmi, 5)
 
-extract_keywords = fn_add(extract_common, extract_bigram, extract_trigram)
+extract_keywords = fn_add(extract_bigram, extract_trigram)
 
 # The echos are for debugging the intermediate steps
 main = compose(
